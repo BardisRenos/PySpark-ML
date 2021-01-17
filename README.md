@@ -7,5 +7,5 @@
 </p>
 
 
-## Creating a sentiment analysis using PySpark Machine Learning Libraries
+## Creating a sentiment analysis project using PySpark Machine Learning Libraries
 
