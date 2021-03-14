@@ -32,6 +32,12 @@ data = df[['Category', 'Descript']]
 data.printSchema()
 ```
 
+```python
+data = df[['Category', 'Descript']]
+data.printSchema()
+data.show(5)
+```
+
 ```
 root
  |-- Category: string (nullable = true)
