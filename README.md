@@ -1,13 +1,11 @@
 # PySpark-ML
 
-
+In this repository will demostrate the ability of Spark with Python programming language of Multi-Class Text Classification with PySpark.
 
 <p align="center"> 
 <img src="https://github.com/BardisRenos/PySpark-ML/blob/main/apache-spark-machine-learning.jpg" width="450" height="250" style=centerme>
 </p>
 
-
-### Creating a sentiment analysis project using PySpark Machine Learning Libraries
 
 
 
