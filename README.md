@@ -21,3 +21,19 @@ print(len(df.columns))
 ['Dates', 'Category', 'Descript', 'DayOfWeek', 'PdDistrict', 'Resolution', 'Address', 'X', 'Y']
 9
 ```
+
+
+### Train data set
+
+The model needs an Input (Descript) and the Output (Category)
+
+```python
+data = df[['Category', 'Descript']]
+data.printSchema()
+```
+
+```
+root
+ |-- Category: string (nullable = true)
+ |-- Descript: string (nullable = true)
+```
