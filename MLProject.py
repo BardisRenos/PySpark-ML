@@ -19,3 +19,8 @@ data.groupBy("Category") \
     .count() \
     .orderBy(col("count").desc()) \
     .show()
+
+data.groupBy("Descript") \
+    .count() \
+    .orderBy(col("count").desc()) \
+    .show()
