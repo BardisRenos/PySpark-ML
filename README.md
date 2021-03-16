@@ -83,4 +83,30 @@ data.groupBy("Descript") \
 |     STOLEN PROPERTY|  4540|
 |SEX OFFENSES FORC...|  4388|
 +--------------------+------+
+
++--------------------+-----+
+|            Descript|count|
++--------------------+-----+
+|GRAND THEFT FROM ...|60022|
+|       LOST PROPERTY|31729|
+|             BATTERY|27441|
+|   STOLEN AUTOMOBILE|26897|
+|DRIVERS LICENSE, ...|26839|
+|      WARRANT ARREST|23754|
+|SUSPICIOUS OCCURR...|21891|
+|AIDED CASE, MENTA...|21497|
+|PETTY THEFT FROM ...|19771|
+|MALICIOUS MISCHIE...|17789|
+|   TRAFFIC VIOLATION|16471|
+|PETTY THEFT OF PR...|16196|
+|MALICIOUS MISCHIE...|15957|
+|THREATS AGAINST LIFE|14716|
+|      FOUND PROPERTY|12146|
+|ENROUTE TO OUTSID...|11470|
+|GRAND THEFT OF PR...|11010|
+|POSSESSION OF NAR...|10050|
+|PETTY THEFT FROM ...|10029|
+|PETTY THEFT SHOPL...| 9571|
++--------------------+-----+
+
 ```
