@@ -108,5 +108,15 @@ data.groupBy("Descript") \
 |PETTY THEFT FROM ...|10029|
 |PETTY THEFT SHOPL...| 9571|
 +--------------------+-----+
-
 ```
+
+### Creating the Model Pipeline
+
+Our pipeline will follow the followed structure.
+
+* Tokenization
+* Remove Stop Words
+* Count vectors
+
+
+
