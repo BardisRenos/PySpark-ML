@@ -37,8 +37,9 @@ class NLPModel:
 
     def convert_the_label(self):
         data = self.relevant_data()
+
         from pyspark.ml import Pipeline
-        from pyspark.ml.feature import OneHotEncoder, StringIndexer, VectorAssembler
+        from pyspark.ml.feature import StringIndexer
         from pyspark.ml.feature import RegexTokenizer, StopWordsRemover, CountVectorizer
 
         regexTokenizer = RegexTokenizer(inputCol="Descript", outputCol="words", pattern="\\W")
@@ -49,7 +50,7 @@ class NLPModel:
         label_string_Index = StringIndexer(inputCol="Category", outputCol="label")
         pipeline = Pipeline(stages=[regexTokenizer, stopwordsRemover, countVectors, label_string_Index])
 
-        # Fit the pipeline to training documents.
+        # Fit the pipeline to training data.
         pipeline_fit = pipeline.fit(data)
         dataset = pipeline_fit.transform(data)
         dataset.show()
