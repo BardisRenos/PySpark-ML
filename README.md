@@ -150,3 +150,35 @@ print(f"Test Dataset length: {testData.count()} texts")
 Training Dataset length: 702085 texts
 Test Dataset length: 175964 texts
 ```
+
+### Evaluation
+
+From the array can been shown the label and the predictio class. 
+
+```
++------------------------------+-------------+------------------------------+-----+----------+
+|                      Descript|     Category|                   probability|label|prediction|
++------------------------------+-------------+------------------------------+-----+----------+
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, SERIA...|LARCENY/THEFT|[0.8746702602899782,0.01980...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
++------------------------------+-------------+------------------------------+-----+----------+
+
+```
