@@ -50,7 +50,7 @@ class NLPModel:
         label_string_Index = StringIndexer(inputCol="Category", outputCol="label")
         pipeline = Pipeline(stages=[regexTokenizer, stopwordsRemover, countVectors, label_string_Index])
 
-        # Fit the pipeline to training data.
+        # Fit the pipeline to the training data.
         pipeline_fit = pipeline.fit(data)
         dataset = pipeline_fit.transform(data)
         dataset.show()
@@ -70,15 +70,16 @@ class NLPModel:
 
         trainingData, testData = self.split_data_for_training()
 
-        lr = LogisticRegression(maxIter=20, regParam=0.3, elasticNetParam=0)
-        lrModel = lr.fit(trainingData)
-        predictions = lrModel.transform(testData)
-        predictions.filter(predictions['prediction'] == 0) \
+        lRegression = LogisticRegression(maxIter=20, regParam=0.3, elasticNetParam=0)
+        lrModel = lRegression.fit(trainingData)
+
+        predictionsData = lrModel.transform(testData)
+        predictionsData.filter(predictionsData['prediction'] == 0) \
             .select("Descript", "Category", "probability", "label", "prediction") \
             .orderBy("probability", ascending=False) \
-            .show(n=10, truncate=30)
+            .show(n=20, truncate=30)
 
-        return predictions
+        return predictionsData
 
     def evaluate(self):
         from pyspark.ml.evaluation import MulticlassClassificationEvaluator
