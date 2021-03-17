@@ -119,6 +119,78 @@ Our pipeline will follow the followed structure.
 * Count vectors
 
 ```python
+from pyspark.ml import Pipeline
+from pyspark.ml.feature import StringIndexer
+from pyspark.ml.feature import RegexTokenizer, StopWordsRemover, CountVectorizer
 
+regexTokenizer = RegexTokenizer(inputCol="Descript", outputCol="words", pattern="\\W")
+add_stopwords = ["http", "https", "amp", "rt", "t", "c", "the", "is", "a", "an", "and"]
+stopwordsRemover = StopWordsRemover(inputCol="words", outputCol="filtered").setStopWords(add_stopwords)
+
+countVectors = CountVectorizer(inputCol="filtered", outputCol="features", vocabSize=10000, minDF=5)
+label_string_Index = StringIndexer(inputCol="Category", outputCol="label")
+pipeline = Pipeline(stages=[regexTokenizer, stopwordsRemover, countVectors, label_string_Index])
+
+# Fit the pipeline to training data.
+pipeline_fit = pipeline.fit(data)
+dataset = pipeline_fit.transform(data)
+dataset.show()
+```
+
+### Splitting the data into train & test sets
+
+The data has to be splitted into 80/20 percent. That means 80% of the whole data are into train data part and the rest, namely, 20% for the testing part.
+
+```python
+(trainingData, testData) = dataset.randomSplit([0.8, 0.2], seed=100)
+print(f"Training Dataset length: {trainingData.count()} texts")
+print(f"Test Dataset length: {testData.count()} texts")
+```
+```
+Training Dataset length: 702085 texts
+Test Dataset length: 175964 texts
+```
+
+### Evaluation
+
+From the array can been shown the label and the predictio class. 
+
+```
++------------------------------+-------------+------------------------------+-----+----------+
+|                      Descript|     Category|                   probability|label|prediction|
++------------------------------+-------------+------------------------------+-----+----------+
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, NO SE...|LARCENY/THEFT|[0.8746706663597197,0.01980...|  0.0|       0.0|
+|THEFT, BICYCLE, <$50, SERIA...|LARCENY/THEFT|[0.8746702602899782,0.01980...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
+|  PETTY THEFT FROM LOCKED AUTO|LARCENY/THEFT|[0.8666860596592011,0.01853...|  0.0|       0.0|
++------------------------------+-------------+------------------------------+-----+----------+
+
+```
+
+```python
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+
+predictions = self.model()
+evaluator = MulticlassClassificationEvaluator(predictionCol="prediction")
+print(f"The Accuracy is:  {format(evaluator.evaluate(predictions)*100, '.2f')} %")
+```
+```
+The Accuracy is:  97.22 %
 ```
 
