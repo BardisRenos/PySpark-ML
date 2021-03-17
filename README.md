@@ -172,7 +172,7 @@ predictionsData.filter(predictionsData['prediction'] == 0) \
 
 ### Evaluation
 
-From the array can been shown the label and the predictio class. 
+From the array can been shown the label and the prediction class. Can see the label of the text and the prediction of the model of the given text.
 
 ```
 +------------------------------+-------------+------------------------------+-----+----------+
