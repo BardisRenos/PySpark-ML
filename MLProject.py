@@ -1,4 +1,5 @@
 import findspark
+
 from pyspark.sql import SparkSession
 
 findspark.init("/home/renos/Downloads/spark-3.0.1-bin-hadoop3.2")
@@ -20,6 +21,8 @@ def relevant_data():
 def show_categories_descriptions():
     from pyspark.sql.functions import col
 
+    data = relevant_data()
+
     data.groupBy("Category") \
         .count() \
         .orderBy(col("count").desc()) \
@@ -31,28 +34,60 @@ def show_categories_descriptions():
         .show()
 
 
-from pyspark.ml.feature import RegexTokenizer, StopWordsRemover, CountVectorizer
-from pyspark.ml.classification import LogisticRegression
-
-regexTokenizer = RegexTokenizer(inputCol="Descript", outputCol="words", pattern="\\W")
-
-add_stopwords = ["http", "https", "amp", "rt", "t", "c", "the", "is", "a", "an", "and"]
-stopwordsRemover = StopWordsRemover(inputCol="words", outputCol="filtered").setStopWords(add_stopwords)
-
-countVectors = CountVectorizer(inputCol="filtered", outputCol="features", vocabSize=10000, minDF=5)
-
-
-def convert_the_label(data):
+def convert_the_label():
+    data = relevant_data()
     from pyspark.ml import Pipeline
     from pyspark.ml.feature import OneHotEncoder, StringIndexer, VectorAssembler
+    from pyspark.ml.feature import RegexTokenizer, StopWordsRemover, CountVectorizer
+
+    regexTokenizer = RegexTokenizer(inputCol="Descript", outputCol="words", pattern="\\W")
+    add_stopwords = ["http", "https", "amp", "rt", "t", "c", "the", "is", "a", "an", "and"]
+    stopwordsRemover = StopWordsRemover(inputCol="words", outputCol="filtered").setStopWords(add_stopwords)
+
+    countVectors = CountVectorizer(inputCol="filtered", outputCol="features", vocabSize=10000, minDF=5)
     label_string_Index = StringIndexer(inputCol="Category", outputCol="label")
     pipeline = Pipeline(stages=[regexTokenizer, stopwordsRemover, countVectors, label_string_Index])
 
     # Fit the pipeline to training documents.
-    pipelineFit = pipeline.fit(data)
-    dataset = pipelineFit.transform(data)
-    dataset.show(5)
+    pipeline_fit = pipeline.fit(data)
+    dataset = pipeline_fit.transform(data)
+    dataset.show()
+
+    return dataset
+
+
+def split_data_for_training():
+    dataset = convert_the_label()
+    (trainingData, testData) = dataset.randomSplit([0.8, 0.2], seed=100)
+    print(f"Training Dataset length: {trainingData.count()}")
+    print(f"Test Dataset length: {testData.count()}")
+
+    return trainingData, testData
+
+
+def model():
+    from pyspark.ml.classification import LogisticRegression
+
+    trainingData, testData = split_data_for_training()
+
+    lr = LogisticRegression(maxIter=20, regParam=0.3, elasticNetParam=0)
+    lrModel = lr.fit(trainingData)
+    predictions = lrModel.transform(testData)
+    predictions.filter(predictions['prediction'] == 0) \
+        .select("Descript", "Category", "probability", "label", "prediction") \
+        .orderBy("probability", ascending=False) \
+        .show(n=10, truncate=30)
+
+    return predictions
+
+
+def evaluate():
+    from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+
+    predictions = model()
+    evaluator = MulticlassClassificationEvaluator(predictionCol="prediction")
+    print(f"The Accuracy is:  {evaluator.evaluate(predictions)}")
 
 
 if __name__ == '__main__':
-    convert_the_label(data=data)
+    evaluate()
