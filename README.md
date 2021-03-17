@@ -118,5 +118,7 @@ Our pipeline will follow the followed structure.
 * Remove Stop Words
 * Count vectors
 
+```python
 
+```
 
