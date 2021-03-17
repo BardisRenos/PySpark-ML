@@ -119,6 +119,21 @@ Our pipeline will follow the followed structure.
 * Count vectors
 
 ```python
+from pyspark.ml import Pipeline
+from pyspark.ml.feature import StringIndexer
+from pyspark.ml.feature import RegexTokenizer, StopWordsRemover, CountVectorizer
 
+regexTokenizer = RegexTokenizer(inputCol="Descript", outputCol="words", pattern="\\W")
+add_stopwords = ["http", "https", "amp", "rt", "t", "c", "the", "is", "a", "an", "and"]
+stopwordsRemover = StopWordsRemover(inputCol="words", outputCol="filtered").setStopWords(add_stopwords)
+
+countVectors = CountVectorizer(inputCol="filtered", outputCol="features", vocabSize=10000, minDF=5)
+label_string_Index = StringIndexer(inputCol="Category", outputCol="label")
+pipeline = Pipeline(stages=[regexTokenizer, stopwordsRemover, countVectors, label_string_Index])
+
+# Fit the pipeline to training data.
+pipeline_fit = pipeline.fit(data)
+dataset = pipeline_fit.transform(data)
+dataset.show()
 ```
 
