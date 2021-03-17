@@ -183,6 +183,25 @@ From the array can been shown the label and the predictio class.
 
 ```
 
+### Model of classification 
+
+```python
+from pyspark.ml.classification import LogisticRegression
+
+trainingData, testData = self.split_data_for_training()
+
+lRegression = LogisticRegression(maxIter=20, regParam=0.3, elasticNetParam=0)
+lrModel = lRegression.fit(trainingData)
+
+predictionsData = lrModel.transform(testData)
+predictionsData.filter(predictionsData['prediction'] == 0) \
+    .select("Descript", "Category", "probability", "label", "prediction") \
+    .orderBy("probability", ascending=False) \
+    .show(n=20, truncate=30)
+```
+
+### Accuracy 
+
 ```python
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 
