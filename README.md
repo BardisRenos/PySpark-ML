@@ -137,3 +137,11 @@ dataset = pipeline_fit.transform(data)
 dataset.show()
 ```
 
+### Splitting the data into train & test sets
+
+
+```python
+(trainingData, testData) = dataset.randomSplit([0.8, 0.2], seed=100)
+print(f"Training Dataset length: {trainingData.count()} texts")
+print(f"Test Dataset length: {testData.count()} texts")
+```
