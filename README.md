@@ -139,9 +139,14 @@ dataset.show()
 
 ### Splitting the data into train & test sets
 
+The data has to be splitted into 80/20 percent. That means 80% of the whole data are into train data part and the rest, namely, 20% for the testing part.
 
 ```python
 (trainingData, testData) = dataset.randomSplit([0.8, 0.2], seed=100)
 print(f"Training Dataset length: {trainingData.count()} texts")
 print(f"Test Dataset length: {testData.count()} texts")
+```
+```
+Training Dataset length: 702085 texts
+Test Dataset length: 175964 texts
 ```
