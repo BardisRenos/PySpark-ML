@@ -182,3 +182,15 @@ From the array can been shown the label and the predictio class.
 +------------------------------+-------------+------------------------------+-----+----------+
 
 ```
+
+```python
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+
+predictions = self.model()
+evaluator = MulticlassClassificationEvaluator(predictionCol="prediction")
+print(f"The Accuracy is:  {format(evaluator.evaluate(predictions)*100, '.2f')} %")
+```
+```
+The Accuracy is:  97.22 %
+```
+
